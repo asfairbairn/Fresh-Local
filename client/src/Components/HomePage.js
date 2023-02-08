@@ -5,7 +5,7 @@ function HomePage() {
 
 
     return (
-        <main className="grid grid-cols-3 justify-evenly place-content-center my-20">
+        <main className="grid grid-cols-3 place-content-center my-20 h-max">
             <div className="m-8 grid grid-row-4 justify-center justify-items-center bg-steel h-60 w-46">
                 <NavLink className="text-3xl pt-3 font-serif text-clover no-underline hover:underline" exact to="/products">Browse</NavLink>
                 {/* <NavLink exact to="/">Fresh&Local</NavLink>
