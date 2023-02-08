@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import Header from './components/Header'
-// import Footer from './components/Footer'
+import Footer from './components/Footer'
 import HomePage from './components/HomePage'
 // import ProductPage from './components/ProductPage'
 // import ProductDetails from './components/ProductDetails'
@@ -80,7 +80,7 @@ function App({Route, Switch}) {
           <Cart/>
         </Route> */}
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
