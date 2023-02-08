@@ -1,33 +1,86 @@
-import React from 'react';
 import {useState, useEffect} from 'react'
-import Header from './Components/Header'
-import Footer from './Components/Footer'
-import ProductPage from './Components/ProductPage'
-import AboutPage from './Components/AboutPage'
-import OurMission from './Components/OurMission'
-import HowItWorks from './Components/HowItWorks'
-import TopProducers from './Components/TopProducers'
-import CreateAccount from './Components/CreateAccount'
-import WhyFresh from './Components/WhyFresh'
+import Header from './components/Header'
+// import Footer from './components/Footer'
+import HomePage from './components/HomePage'
+// import ProductPage from './components/ProductPage'
+// import ProductDetails from './components/ProductDetails'
+// import UserDetails from './components/UserDetails'
+// import AboutPage from './components/AboutPage'
+// import OurMission from './components/OurMission'
+// import HowItWorks from './components/HowItWorks'
+// import TopProducers from './components/TopProducers'
+// import LogIn from './components/LogIn'
+// import CreateAccount from './components/CreateAccount'
+// import WhyFresh from './components/WhyFresh'
 
-function App() {
+function App({Route, Switch}) {
+
+  const [user, setUser] = useState(null)
+
+  const [products, setProducts] = useState([])
+
+  const [search, setSearch] = useState("")
+
+  useEffect(() => {
+    fetch("/products")
+    .then(r => r.json())
+    .then((products) => setProducts(products))
+  }, [])
+
   return (
-    <div className="App">
+    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed min-h-screen">
       <Header />
       <Switch>
         <Route exact path="/">
-          <GamePage games={filteredGames} search={search} handleSearch={handleSearch}/>
+          <HomePage user={user} />
         </Route>
-        <Route path="/games/:id">
-          <GameDetails API={API}/>
-        </Route>
-        <Route path="/genres">
-          <GenrePage games={games}/>
-        </Route>
-        <Route path="/gameform">
-          <GameForm games={games} setGames={setGames} API={API}/>
-        </Route>        
+        {/* <Route path="/products">
+          <ProductPage products={products} setProducts={products}/>
+        </Route> */}
+        {/* <Route path="/products/:id">
+          <ProductDetails />
+        </Route> */}
+        {/* <Route path="/users/:id">
+          <UserDetails />
+        </Route> */}
+        {/* <Route path="/about">
+          <AboutPage />
+        </Route> */}
+        {/* <Route path="/about/our_mission">
+          <AboutPage />
+        </Route> */}
+        {/* <Route path="/about/how_it_works">
+          <AboutPage />
+        </Route> */}
+        {/* <Route path="/about/top_producers">
+          <TopProducers />
+        </Route> */}
+        {/* <Route path="/sell">
+          <SellPage />
+        </Route> */}
+        {/* <Route path="/login">
+          <LogIn setUser={setUser}/>
+        </Route> */}
+        {/* <Route path="/login/create_account">
+          <CreateAccount setUser={setUser}/>
+        </Route> */}
+        {/* <Route path="/sell/why_fresh&local">
+          <WhyFresh/>
+        </Route> */}
+        {/* <Route path="/users/:id">
+          <UserDetails/>
+        </Route> */}
+        {/* <Route path="/users/:id/products">
+          <UserProductsPage/>
+        </Route> */}
+        {/* <Route path="/users/:id/products/new">
+          <ProductForm/>
+        </Route> */}
+        {/* <Route path="/cart">
+          <Cart/>
+        </Route> */}
       </Switch>
+      {/* <Footer /> */}
     </div>
   );
 }
