@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useHistory, NavLink } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 function Login({setUser}) {
+    const history = useHistory()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState([])
@@ -17,28 +18,29 @@ function Login({setUser}) {
         }).then((r) => {
             if (r.ok) {
                 r.json().then((user) => setUser(user))
+                history.push(`/`)
             } else {
-                r.json().then((err) => setErrors(err.errors))
+                r.json().then((err) => setErrors(err.error))
             }
         })
     }
-
+        console.log(errors)
     return (
         <div>
             <form>
-                <label for="username">Username:</label>
+                <label htmlfor="username">Username:</label>
                 <input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label for="password">Password:</label>
+                <label htmlfor="password">Password:</label>
                 <input type="text" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button>Login</button>
+                <button onClick={handleSubmit}>Login</button>
                 <div>
-                    {errors.map((err) => (
+                    {errors?.map((err) => (
                         <h4 key={err}>{err}</h4>
                     ))}
                 </div>
             </form>
-            <NavLink exact to="/login/create_account">Create an Account</NavLink>
-            <NavLink exact to="/login/forgot_password">Forgot password?</NavLink>
+            <Link exact to="/login/create_account">Create an Account</Link>
+            <Link exact to="/login/forgot_password">Forgot password?</Link>
         </div>
     )
 }

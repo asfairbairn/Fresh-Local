@@ -10,12 +10,12 @@ class UsersController < ApplicationController
 
     def show
         authorize
-        render json: @current_user
+        render json: User.find(params[:id])
     end
 
     def guest
         return if session[:user_id]
-        @guest = User.new(:email => "Guest")
+        @guest = User.new(:username => "Guest")
         @guest.save(validate: false)
         session[:user_id] = @guest.id
         cart_details = @guest.cart_details.create!
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:first_name, :last_name, :email, :phone_number, :street_address, :city, :state, :zip, :username, :password, :password_confirmation, :bio, :image_address_1, :image_address_2, :image_address_3, :image_address_4, :producter)
+        params.permit(:first_name, :last_name, :email, :phone_number, :street_address, :city, :state, :zip, :username, :password, :password_confirmation, :bio, :image_address_1, :image_address_2, :image_address_3, :image_address_4, :producer)
     end
 
 end

@@ -3,6 +3,10 @@ class User < ApplicationRecord
     has_many :reviews
     has_many :cart_items, through: :cart_details
     has_many :products
+    has_one_attached :image_address_1
+    has_one_attached :image_address_2
+    has_one_attached :image_address_3
+    has_one_attached :image_address_4
 
     has_secure_password
 

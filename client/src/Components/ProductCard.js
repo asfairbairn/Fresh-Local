@@ -6,8 +6,8 @@ function ProductCard({product}) {
 
     const handleClick = () => {
         history.push(`/products/${product.id}`)
-
     }
+    
     return (
         <li onClick={handleClick}>
             <img src={product.image_address_1} alt={product.name} />

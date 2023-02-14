@@ -2,7 +2,7 @@ import React from 'react';
 import ProductCard from './ProductCard'
 import SearchBar from './SearchBar'
 
-function ProductPage({products, search, handleSearch}) {
+function ProductPage({products, search, handleSearch, setProductCategory, setOrganic, organic}) {
 
     const createProductCard = products.map((product) => {
         return <ProductCard key={product.id} product={product} />
@@ -11,6 +11,18 @@ function ProductPage({products, search, handleSearch}) {
     return (
         <main>
             <SearchBar search={search} handleSearch={handleSearch}/>
+            <form>
+                <select name="product_category" onChange={(e) => setProductCategory(e.target.value)}>
+                    <option value="" disabled selected hidden>Filter by Product Category</option>
+                    <option value="all">All</option>
+                    <option value="produce">Produce</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="meat_and_eggs">Meat & Eggs</option>
+                    <option value="misc">Misc.</option>
+                </select>
+                <label htmlfor="organic">Organic:</label>
+                <input type="checkbox" name="organic" onChange={() => setOrganic(!organic)} />
+            </form>
             <ul>
                 {createProductCard}
             </ul>

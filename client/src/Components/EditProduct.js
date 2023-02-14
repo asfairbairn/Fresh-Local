@@ -1,26 +1,34 @@
-import React from 'react';
-import {useState} from 'react'
-import {useHistory} from 'react-router-dom'
+import {useState, useEffect} from 'react'
+import { useParams, useHistory } from "react-router-dom"
 
 function ProductForm({user, products, setProducts}) {
-    const [price, setPrice] = useState(0)
-    const [productCategory, setProductCategory] = useState("")
-    const [stock, setStock] = useState(0)
-    const [name, setName] = useState("")
-    const [dateHarvested, setDateHarvested] = useState("")
-    const [organic, setOrganic] = useState(false)
+
+    const [product, setProduct] = useState({})
+    const { id } = useParams()
+    const history = useHistory()
+
+    useEffect(() => {
+        fetch(`/products/${id}`)
+            .then(r => r.json())
+            .then(product => setProduct(product))
+    }, [id])
+
+    const [price, setPrice] = useState(product.price)
+    const [productCategory, setProductCategory] = useState(product.product_category)
+    const [stock, setStock] = useState(product.stock)
+    const [name, setName] = useState(product.name)
+    const [dateHarvested, setDateHarvested] = useState(product.date_harvested)
+    const [organic, setOrganic] = useState(product.organic)
     const [imageAddress1, setImageAddress1] = useState(null)
     const [imageAddress2, setImageAddress2] = useState(null)
     const [imageAddress3, setImageAddress3] = useState(null)
     const [imageAddress4, setImageAddress4] = useState(null)
-    const [description, setDescription] = useState("")
-
-    const history = useHistory()
+    const [description, setDescription] = useState(product.description)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         fetch(`/products`, {
-            method: "POST",
+            method: "PATCH",
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({
                 price,
@@ -62,7 +70,7 @@ function ProductForm({user, products, setProducts}) {
                 <label htmlfor="stock">Stock:</label>
                 <input type="text" name="stock" placeholder="stock" onChange={(e) => setStock(e.target.value)} value={stock}/>
                 <label htmlfor="organic">Organic:</label>
-                <input type="checkbox" name="organic" onChange={() => setOrganic(!organic)} />
+                <input type="checkbox" name="organic" onChange={() => setOrganic(!organic)} value={organic}/>
                 <label htmlfor="dateHarvested">Date Harvested:</label>
                 <input type="date" name="dateHarvested" required pattern="\d{2}-\d{2}-\d{4}" onChange={(e) => setDateHarvested(e.target.value)} value={dateHarvested}/>
                 <label htmlfor="imageAddress1">Image 1:</label>
