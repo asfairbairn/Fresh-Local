@@ -2,24 +2,35 @@ import {useState, useEffect} from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomePage from './components/HomePage'
-// import ProductPage from './components/ProductPage'
-// import ProductDetails from './components/ProductDetails'
-// import UserDetails from './components/UserDetails'
-// import AboutPage from './components/AboutPage'
-// import OurMission from './components/OurMission'
-// import HowItWorks from './components/HowItWorks'
-// import TopProducers from './components/TopProducers'
-// import LogIn from './components/LogIn'
-// import CreateAccount from './components/CreateAccount'
-// import WhyFresh from './components/WhyFresh'
+import ProductPage from './components/ProductPage'
+import ProductDetails from './components/ProductDetails'
+import AboutPage from './components/AboutPage'
+import OurMission from './components/OurMission'
+import HowItWorks from './components/HowItWorks'
+import TopProducers from './components/TopProducers'
+import SellPage from './components/SellPage'
+import UserPage from './components/UserPage'
+import ProductForm from './components/ProductForm'
+import Cart from './components/Cart'
+import LogIn from './components/LogIn'
+import CreateAccount from './components/CreateAccount'
+import WhyFresh from './components/WhyFresh'
+import EditUser from './components/EditUser'
+import EditProduct from './components/EditProduct'
 
 function App({Route, Switch}) {
 
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState()
 
   const [products, setProducts] = useState([])
 
   const [search, setSearch] = useState("")
+
+  const [cart, setCart] =useState([])
+
+  const [productCategory, setProductCategory] = useState("all")
+
+  const [organic, setOrganic] = useState(false)
 
   useEffect(() => {
     fetch("/products")
@@ -27,58 +38,91 @@ function App({Route, Switch}) {
     .then((products) => setProducts(products))
   }, [])
 
+  useEffect(() => {
+    fetch("/me").then((r) => {
+      if (r.ok) {r.json().then((user) => {
+        setUser(user)});
+        console.log(user)
+      }});
+  }, []);
+
+  // const filteredProductsByOrganic = (products) => {
+  //   if(organic === true) {
+  //     return products?.organic === true
+  //   }else {return products}
+  // }
+
+  // const filteredProductsByCategory = (filteredProductsByOrganic) => {
+  //   if (productCategory === 'all') {
+  //     return filteredProductsByOrganic
+  //   }
+  //   else {return filteredProductsByOrganic.filter(product => {
+  //     return product.product_category === productCategory
+  //   })}
+  // }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value)
+  }
+
+//   const searchFilteredProducts = () => {
+//     filteredProductsByCategory.filter(product => {
+//     return product.name.toLowerCase().includes(search.toLowerCase())
+//   })
+// }
+
   return (
-    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed min-h-screen">
-      <Header />
+    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed">
+      <Header setUser={setUser} user={user} setCart={setCart}/>
       <Switch>
         <Route exact path="/">
-          <HomePage user={user} />
+          <HomePage user={user} setUser={setUser} setProductCategory={setProductCategory} setOrganic={setOrganic}/>
         </Route>
-        {/* <Route path="/products">
-          <ProductPage products={products} setProducts={products}/>
-        </Route> */}
-        {/* <Route path="/products/:id">
-          <ProductDetails />
-        </Route> */}
-        {/* <Route path="/users/:id">
-          <UserDetails />
-        </Route> */}
-        {/* <Route path="/about">
+        <Route exact path="/products">
+          <ProductPage products={products} setProductCategory={setProductCategory} setOrganic={setOrganic} organic={organic} handleSearch={handleSearch} search={search}/>
+        </Route>
+        <Route exact path="/products/:id">
+          <ProductDetails user={user} setCart={setCart}/>
+        </Route>
+        <Route exact path="/products/:id/update">
+          <EditProduct user={user} setProducts={setProducts} products={products}/>
+        </Route>
+        <Route exact path="/about">
           <AboutPage />
-        </Route> */}
-        {/* <Route path="/about/our_mission">
-          <AboutPage />
-        </Route> */}
-        {/* <Route path="/about/how_it_works">
-          <AboutPage />
-        </Route> */}
-        {/* <Route path="/about/top_producers">
+        </Route>
+        <Route exact path="/about/our_mission">
+          <OurMission />
+        </Route>
+        <Route exact path="/about/how_it_works">
+          <HowItWorks />
+        </Route>
+        <Route exact path="/about/top_producers">
           <TopProducers />
-        </Route> */}
-        {/* <Route path="/sell">
+        </Route>
+        <Route exact path="/sell">
           <SellPage />
-        </Route> */}
-        {/* <Route path="/login">
+        </Route>
+        <Route exact path="/login">
           <LogIn setUser={setUser}/>
-        </Route> */}
-        {/* <Route path="/login/create_account">
+        </Route>
+        <Route exact path="/login/create_account">
           <CreateAccount setUser={setUser}/>
-        </Route> */}
-        {/* <Route path="/sell/why_fresh&local">
+        </Route>
+        <Route exact path="/sell/why_fresh&local">
           <WhyFresh/>
-        </Route> */}
-        {/* <Route path="/users/:id">
-          <UserDetails/>
-        </Route> */}
-        {/* <Route path="/users/:id/products">
-          <UserProductsPage/>
-        </Route> */}
-        {/* <Route path="/users/:id/products/new">
+        </Route>
+        <Route exact path="/users/:id">
+          <UserPage user={user}/>
+        </Route>
+        <Route exact path="/users/:id/update">
+          <EditUser user={user} setUser={setUser}/>
+        </Route>
+        <Route exact path="/users/:id/products/new">
           <ProductForm/>
-        </Route> */}
-        {/* <Route path="/cart">
-          <Cart/>
-        </Route> */}
+        </Route>
+        <Route exact path="/cart">
+          <Cart setCart={setCart} cart={cart} />
+        </Route>
       </Switch>
       <Footer />
     </div>
