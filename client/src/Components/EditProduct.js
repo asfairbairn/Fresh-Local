@@ -8,7 +8,7 @@ function ProductForm({user, products, setProducts}) {
     const history = useHistory()
 
     useEffect(() => {
-        fetch(`/products/${id}`)
+        fetch(`/api/products/${id}`)
             .then(r => r.json())
             .then(product => setProduct(product))
     }, [id])
@@ -27,7 +27,7 @@ function ProductForm({user, products, setProducts}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`/products`, {
+        fetch(`/api/products`, {
             method: "PATCH",
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({

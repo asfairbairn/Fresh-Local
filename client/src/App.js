@@ -31,20 +31,42 @@ function App({Route, Switch}) {
   const [productCategory, setProductCategory] = useState("all")
 
   const [organic, setOrganic] = useState(false)
-
+  
   useEffect(() => {
-    fetch("/products")
+    fetch("/api/products")
     .then(r => r.json())
-    .then((products) => setProducts(products))
+    .then((products) => {
+      console.log(products)
+      setProducts(products)
+
+    })
+
   }, [])
 
+  console.log(products)
+
   useEffect(() => {
-    fetch("/me").then((r) => {
-      if (r.ok) {r.json().then((user) => {
-        setUser(user)});
-        console.log(user)
+    fetch("/api/me").then((r) => {
+      if (r.ok) {r.json().then((data) => {
+        console.log(data)
+        setUser(data)});
       }});
   }, []);
+
+  useEffect(() => {
+    if (user?.id) {
+    fetch(`/api/cart_details/${user.id}`)
+    .then(res => {
+        if (res.ok){
+            return res.json()
+        } else {
+        }
+    })
+    .then(cart => {
+            setCart(cart);
+        });
+    }
+}, [user]);
 
   // const filteredProductsByOrganic = (products) => {
   //   if(organic === true) {
@@ -72,14 +94,14 @@ function App({Route, Switch}) {
 // }
 
   return (
-    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed">
+    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed h-screen">
       <Header setUser={setUser} user={user} setCart={setCart}/>
       <Switch>
         <Route exact path="/">
           <HomePage user={user} setUser={setUser} setProductCategory={setProductCategory} setOrganic={setOrganic}/>
         </Route>
         <Route exact path="/products">
-          <ProductPage products={products} setProductCategory={setProductCategory} setOrganic={setOrganic} organic={organic} handleSearch={handleSearch} search={search}/>
+          <ProductPage products={products} setProductCategory={setProductCategory} setOrganic={setOrganic} organic={organic} handleSearch={handleSearch} search={search} productCategory={productCategory}/>
         </Route>
         <Route exact path="/products/:id">
           <ProductDetails user={user} setCart={setCart}/>

@@ -25,7 +25,7 @@ function EditUser ({ setUser, user }) {
     function handleSubmit(e) {
         e.preventDefault()
         setErrors([])
-        fetch("/signup", {
+        fetch("/api/signup", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

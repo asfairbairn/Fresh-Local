@@ -3,20 +3,22 @@ import { useParams, Link, useHistory } from "react-router-dom"
 import Carousel from "./Carousel"
 import OrganicLogo from '../assets/icons/organic-logo.png'
 
-function ProductDetails ({ setCart }) {
+function ProductDetails ({ user, setCart }) {
     const [product, setProduct] = useState({})
     const { id } = useParams()
     const history = useHistory()
 
+    console.log(user)
+
     const handleClick = () => {
-        fetch(`/api/cart_details/${user.cart_details_id}/cart_items`, {
+        fetch(`/api/cart_items`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                product_id: id,
+                product_id: parseInt(id),
                 quantity: 1,
             })
         })
@@ -28,16 +30,16 @@ function ProductDetails ({ setCart }) {
     }
 
     const handleProducerClick = () => {
-        history.push(`/users/${user.id}`)
+        history.push(`/users/${product.user.id}`)
     }
 
     useEffect(() => {
-        fetch(`/products/${id}`)
+        fetch(`/api/products/${id}`)
             .then(r => r.json())
             .then(product => setProduct(product))
     }, [id])
 
-    const { price, user, stock, name, date_harvested, organic, image_address_1, image_address_2, image_address_3, image_address_4, description} = product
+    const { price, stock, name, date_harvested, organic, image_address_1, image_address_2, image_address_3, image_address_4, description} = product
 
 
    return (

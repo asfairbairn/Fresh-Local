@@ -1,4 +1,4 @@
-class ReviewsController < ApplicationController
+class Api::ReviewsController < ApplicationController
 
     before_action :find_review, only: [:show, :destroy]
 

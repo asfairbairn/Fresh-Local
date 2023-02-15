@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Api::UsersController < ApplicationController
 
     before_action :find_user, only: [:update, :destroy]
     before_action :guest, only: [:show]
@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     def guest
         return if session[:user_id]
-        @guest = User.new(:username => "Guest")
+        @guest = User.new(:email => "Guest")
         @guest.save(validate: false)
         session[:user_id] = @guest.id
         cart_details = @guest.cart_details.create!

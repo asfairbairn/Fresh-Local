@@ -5,8 +5,10 @@ import CartItemCard from './CartItemCard'
 function Cart({cart, setCart}) {
 
     let total_cart_items = 0
-    let total = 0
+    let total = 0.0
     let quantity = 0
+
+    console.log(cart)
 
     const updateCartItem = (item) => {
         setCart(cart.map(i => i.id === item.id ? item : i));
@@ -17,10 +19,10 @@ function Cart({cart, setCart}) {
         setCart(updatedCart)
     }
 
-    const createCartItems = cart.map((cartItem) => {
+    const createCartItems = cart?.map((cartItem) => {
         total_cart_items += cartItem.quantity
         console.log(cartItem)
-        total += cartItem.quantity * cartItem.product.price
+        total += cartItem.quantity * cartItem?.product?.price
         return <CartItemCard
             key={cartItem.id}
             cartItem={cartItem}
@@ -37,18 +39,20 @@ function Cart({cart, setCart}) {
         </div>
 
     const displayCartDetails =
-        <div>
-            <div>
-                <h1>Items</h1>
-                <div>
+        <div className="grid grid-cols-2 place-content-center h-window">
+            <div className="m-8 grid grid-row-4 justify-center justify-items-center bg-steel h-60 w-46" >
+                <h1 className="text-3xl pt-3 font-serif text-clover" >Items</h1>
+                <div className=" overflow-auto">
                     {createCartItems}
                 </div>
             </div>
-            <div>
-                <h1>Order Summary</h1>
-                <h4>Subtotal ({total_cart_items} product{total_cart_items > 1 ? "s" : null})</h4>
-                <span>$ {total}.00</span>
-                <button>Continue to Checkout</button>
+            <div className="m-8 grid grid-row-3 justify-center justify-items-center bg-steel h-60 w-46">
+                <h1 className="text-3xl pt-3 font-serif text-clover">Order Summary</h1>
+                <div className="grid grid-cols-2 justify-items-center">
+                    <h4 className="font-serif text-clover">Subtotal ({total_cart_items} product{total_cart_items > 1 ? "s" : null})</h4>
+                    <span className="font-serif text-clover">$ {total}</span>
+                </div>
+                <button className="font-serif text-clover no-underline hover:underline">Continue to Checkout</button>
             </div>
         </div>
 

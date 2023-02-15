@@ -1,4 +1,4 @@
-class ProductCategoriesController < ApplicationController
+class Api::ProductCategoriesController < ApplicationController
 
     def index
         render json: ProductCategory.all

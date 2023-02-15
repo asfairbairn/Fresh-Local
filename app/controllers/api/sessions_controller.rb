@@ -1,9 +1,16 @@
-class SessionsController < ApplicationController
+class Api::SessionsController < ApplicationController
 
     skip_before_action :authorize, only: [:create, :show, :destroy]
 
 
     def show
+        @current_user = User.find_by(id: session[:user_id])
+        if !@current_user
+            @current_user = User.new(:username => "Guest")
+            @current_user.save(validate: false)
+            session[:user_id] = @current_user.id
+            cart_details = @current_user.cart_details.create!
+        end
         render json: @current_user
     end
     

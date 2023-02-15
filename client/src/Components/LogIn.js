@@ -9,7 +9,7 @@ function Login({setUser}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        fetch("/login", {
+        fetch("/api/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -26,21 +26,23 @@ function Login({setUser}) {
     }
         console.log(errors)
     return (
-        <div>
-            <form>
-                <label htmlfor="username">Username:</label>
-                <input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlfor="password">Password:</label>
-                <input type="text" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button onClick={handleSubmit}>Login</button>
-                <div>
-                    {errors?.map((err) => (
-                        <h4 key={err}>{err}</h4>
-                    ))}
+        <div className="grid place-content-center h-full ">
+            <div className="bg-steel h-80 min-w-160 place-content-center ">
+                <form className="grid grid-row 5 justify-center ">
+                    <label className="self-center" htmlFor="username">Username:</label>
+                    <input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <label htmlFor="password">Password:</label>
+                    <input type="text" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <button onClick={handleSubmit}>Login</button>
+                    <div>
+                        {errors?.map((err) => (
+                            <h4 key={err}>{err}</h4>
+                        ))}
+                    </div>
+                </form>
+                <Link exact to="/login/create_account">Create an Account</Link>
+                <Link exact to="/login/forgot_password">Forgot password?</Link>
                 </div>
-            </form>
-            <Link exact to="/login/create_account">Create an Account</Link>
-            <Link exact to="/login/forgot_password">Forgot password?</Link>
         </div>
     )
 }

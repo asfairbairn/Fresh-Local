@@ -10,23 +10,16 @@ function Header({setUser, user, setCart}) {
             })
             .then(() => {
                 fetch("/me").then((r) => {
-                    if (r.ok) {r.json().then((user) => {
-                      setUser(user)});
+                    if (r.ok) {r.json().then((data) => {
+                      setUser(data)});
                       console.log(user)
                     }});
             });
     }
 
-    useEffect(() => {
-        fetch("/me").then((r) => {
-          if (r.ok) {r.json().then((data) => {
-            setUser(data)});
-          }});
-      }, []);
-
       useEffect(() => {
         if (user?.id) {
-        fetch(`/cart_details/${user.id}`)
+        fetch(`/api/cart_details/${user.id}`)
         .then(res => {
             if (res.ok){
                 return res.json()
@@ -45,7 +38,6 @@ function Header({setUser, user, setCart}) {
             <IconBar user={user} setUser={setUser}/>
             <Link exact to="/" className="pt-10 font-serif text-clover text-5xl font-extralight no-underline hover:underline justify-self-center flex justify-center">Fresh&Local</Link>
             <h3 className="pt-3 font-serif text-clover flex justify-center">Quality food produced by your neighbors.</h3>
-            <button onClick={handleLogOut}>Logout</button>
         </header>
     )
 }
