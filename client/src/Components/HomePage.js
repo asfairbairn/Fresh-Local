@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function HomePage({setUser, user, setProductCategory, setOrganic}) {
 
     function handleLogoutClick() {
-        fetch("/logout", { method: "DELETE" }).then((r) => {
+        fetch("/api/logout", { method: "DELETE" }).then((r) => {
             if (r.ok) {
                 setUser(null);
             }

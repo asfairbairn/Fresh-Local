@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class Api::ProductsController < ApplicationController
 
     before_action :find_product, only: [:show, :update, :destroy]
 
@@ -34,7 +34,7 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-        params.permit(:name, :product_category_id, :image_address_front, :image_address_back, :image_address_insideout_front, :image_address_insideout_back, :brief_description, :description, :price, :stock, :customer_type_id)
+        params.permit(:name, :product_category_id, :user_id, :image_address_1, :image_address_2, :image_address_3, :image_address_4, :description,  :price, :stock, :organic)
     end
 
 end

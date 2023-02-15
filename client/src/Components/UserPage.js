@@ -11,7 +11,7 @@ function UserPage({user}) {
 
     useEffect(() => {
         console.log(id)
-        fetch(`/users/${id}`)
+        fetch(`/api/users/${id}`)
             .then(r => r.json())
             .then(data =>setUserInfo(data))
     }, [id])

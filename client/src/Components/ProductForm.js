@@ -19,7 +19,7 @@ function ProductForm({user, products, setProducts}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`/products`, {
+        fetch(`/api/products`, {
             method: "POST",
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({

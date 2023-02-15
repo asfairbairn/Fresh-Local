@@ -1,4 +1,4 @@
-class CartDetailsController < ApplicationController
+class Api::CartDetailsController < ApplicationController
 
     before_action :find_cart_details, only: [:show]
 
