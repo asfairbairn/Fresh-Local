@@ -8,10 +8,7 @@ class CreateProducts < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :date_harvested
       t.boolean :organic
-      t.string :image_address_1
-      t.string :image_address_2
-      t.string :image_address_3
-      t.string :image_address_4
+      t.string :image_address
       t.text :description
 
       t.timestamps

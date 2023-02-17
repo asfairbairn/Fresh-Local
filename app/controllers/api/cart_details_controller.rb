@@ -8,9 +8,10 @@ class Api::CartDetailsController < ApplicationController
         render json: @cart_details.cart_items
     end
 
+
     def create
-        cart_details = CartDetail.create!(user_id: session[:user_id])
-        render json: cart_details, status: :created
+        cart_detail = CartDetail.create!(user_id: session[:user_id])
+        render json: cart_detail.cart_items, status: :created
     end
 
     private

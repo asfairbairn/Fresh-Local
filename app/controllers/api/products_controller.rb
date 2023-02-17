@@ -13,7 +13,8 @@ class Api::ProductsController < ApplicationController
     end
 
     def create
-        product = Product.create!(product_params)
+        user = User.find_by(id: session[:user_id])
+        product = user.products.create!(product_params)
         render json: product, status: :created
     end
 
@@ -34,7 +35,7 @@ class Api::ProductsController < ApplicationController
     end
 
     def product_params
-        params.permit(:name, :product_category_id, :user_id, :image_address_1, :image_address_2, :image_address_3, :image_address_4, :description,  :price, :stock, :organic)
+        params.permit(:name, :product_category_id, :user_id, :image_address, :description,  :price, :stock, :organic)
     end
 
 end

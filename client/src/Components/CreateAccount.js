@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 function CreateAccount ({ setUser }) {
     const history = useHistory()
+    
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
@@ -15,10 +16,7 @@ function CreateAccount ({ setUser }) {
     const [state, setState] = useState("")
     const [zip, setZip] = useState("")
     const [bio, setBio] = useState("")
-    const [imageAddress1, setImageAddress1] = useState(null)
-    const [imageAddress2, setImageAddress2] = useState(null)
-    const [imageAddress3, setImageAddress3] = useState(null)
-    const [imageAddress4, setImageAddress4] = useState(null)
+    const [image_address_1, setImageAddress1] = useState("")
     const [producer, setProducer] = useState(true)
     const [errors, setErrors] = useState([])
 
@@ -43,10 +41,7 @@ function CreateAccount ({ setUser }) {
                 password,
                 password_confirmation: passwordConfirmation,
                 bio,
-                image_address_1: imageAddress1,
-                image_address_2: imageAddress2,
-                image_address_3: imageAddress3,
-                image_address_4: imageAddress4,
+                image_address_1,
                 producer,
             }),
         }).then((r) => {
@@ -60,46 +55,44 @@ function CreateAccount ({ setUser }) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlfor="username">Username:</label>
-                <input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <label htmlhtmlfor="password">Password:</label>
-                <input type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <label htmlfor="password">Password Confirmation:</label>
-                <input type="password" id="password_confirmation" autoComplete="current-password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
-                <label htmlfor="firstName">First Name:</label>
-                <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                <label htmlfor="lastName">Last Name:</label>
-                <input type="text" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                <label htmlfor="email">Email:</label>
-                <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <label htmlfor="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-                <label htmlfor="streetAddress">Street Address:</label>
-                <input type="text" id="streetAddress" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />
-                <label htmlfor="city">City:</label>
-                <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
-                <label htmlfor="state">State:</label>
-                <input type="text" id="state" value={state} onChange={(e) => setState(e.target.value)} />
-                <label htmlfor="zip">Zip:</label>
-                <input type="text" id="zip" value={zip} onChange={(e) => setZip(e.target.value)} />
-                <label htmlfor="bio">Bio:</label>
-                <textarea type="text" id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
-                <label htmlfor="imageAddress1">Image 1:</label>
-                <input type="file" accept="image/*" value={imageAddress1} onChange={(e) => setImageAddress1(e.target.files[0])} />
-                <label htmlfor="imageAddress2">Image 2:</label>
-                <input type="file" accept="image/*" value={imageAddress2} onChange={(e) => setImageAddress2(e.target.files[0])} />
-                <label htmlfor="imageAddress3">Image 3:</label>
-                <input type="file" accept="image/*" value={imageAddress3} onChange={(e) => setImageAddress3(e.target.files[0])} />
-                <label htmlfor="imageAddress4">Image 4:</label>
-                <input type="file" accept="image/*" value={imageAddress4} onChange={(e) => setImageAddress4(e.target.files[0])} />
-                <div>
-                    {errors?.map((err) => (
-                        <h4 key={err}>{err}</h4>
-                    ))}
-                </div>
-            </form>
+        <div className="grid place-content-center h-auto">
+            <div className='grid grid-col-2 font-serif justify-content-center bg-steel mt-10 mb-10'>
+                <h1 className="text-center text-clover text-3xl mt-5">Creat an Account:</h1>
+                <form className='grid grid-col-3 justify-content-center text-center w-[32rem] p-5' onSubmit={handleSubmit}>
+                    <label className="text-clover" htmlFor="username">Username:</label>
+                    <input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="password">Password:</label>
+                    <input type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="password">Password Confirmation:</label>
+                    <input type="password" id="password_confirmation" autoComplete="current-password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="firstName">First Name:</label>
+                    <input type="text" id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="lastName">Last Name:</label>
+                    <input type="text" id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="email">Email:</label>
+                    <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="phoneNumber">Phone Number:</label>
+                    <input type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="streetAddress">Street Address:</label>
+                    <input type="text" id="streetAddress" value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="city">City:</label>
+                    <input type="text" id="city" value={city} onChange={(e) => setCity(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="state">State:</label>
+                    <input type="text" id="state" value={state} onChange={(e) => setState(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="zip">Zip:</label>
+                    <input type="text" id="zip" value={zip} onChange={(e) => setZip(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="bio">Bio:</label>
+                    <textarea rows="5" className="h-[100px]" type="text" id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+                    <label className="text-clover mt-2" htmlFor="image_address_1">Image:</label>
+                    <input type="text" name="imageAddress1" onChange={(e) => setImageAddress1(e.target.value)} />
+                    <div className="text-red-700">
+                        {errors?.map((err) => (
+                            <h4 key={err}>{err}</h4>
+                        ))}
+                    </div>
+                    <button className="text-clover mt-4 p-2 no-underline hover:underline" type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     )
 }

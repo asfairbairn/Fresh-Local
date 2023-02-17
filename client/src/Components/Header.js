@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import IconBar from './IconBar'
 
-function Header({setUser, user, setCart}) {
+function Header({setUser, user}) {
 
     const handleLogOut = () => {
         fetch(`/logout`,{
@@ -16,22 +16,6 @@ function Header({setUser, user, setCart}) {
                     }});
             });
     }
-
-      useEffect(() => {
-        if (user?.id) {
-        fetch(`/api/cart_details/${user.id}`)
-        .then(res => {
-            if (res.ok){
-                return res.json()
-            } else {
-            
-            }
-        })
-        .then(cart => {
-                setCart(cart);
-            });
-        }
-    }, [user]);
 
     return (
         <header className="h-40 w-full bg-steel">

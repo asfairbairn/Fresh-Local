@@ -13,6 +13,11 @@ class Api::UsersController < ApplicationController
         render json: User.find(params[:id])
     end
 
+    def top_producers
+        top_producers = User.all.max_by(5) {|r| r.products.count}
+        render json: top_producers
+    end
+
     def guest
         return if session[:user_id]
         @guest = User.new(:email => "Guest")
@@ -23,7 +28,6 @@ class Api::UsersController < ApplicationController
 
     def create
         user = User.create!(user_params)
-        user.cart_details.create!
         session[:user_id] = user.id
         render json: user, status: :created
     end
@@ -46,7 +50,7 @@ class Api::UsersController < ApplicationController
     end
 
     def user_params
-        params.permit(:first_name, :last_name, :email, :phone_number, :street_address, :city, :state, :zip, :username, :password, :password_confirmation, :bio, :image_address_1, :image_address_2, :image_address_3, :image_address_4, :producer)
+        params.permit(:first_name, :last_name, :email, :phone_number, :street_address, :city, :state, :zip, :username, :password, :password_confirmation, :bio, :image_address, :producer)
     end
 
 end

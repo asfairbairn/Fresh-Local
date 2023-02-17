@@ -5,12 +5,7 @@ class Api::SessionsController < ApplicationController
 
     def show
         @current_user = User.find_by(id: session[:user_id])
-        if !@current_user
-            @current_user = User.new(:username => "Guest")
-            @current_user.save(validate: false)
-            session[:user_id] = @current_user.id
-            cart_details = @current_user.cart_details.create!
-        end
+        guest
         render json: @current_user
     end
     
@@ -26,7 +21,17 @@ class Api::SessionsController < ApplicationController
     end
 
     def destroy
-        session.delete :user_id
-        head :no_content
+        guest
+        render json: @current_user
+    end
+
+    private
+
+    def guest
+        if !@current_user
+            @current_user = User.new(:username => "Guest")
+            @current_user.save(validate: false)
+            session[:user_id] = @current_user.id
+        end
     end
 end

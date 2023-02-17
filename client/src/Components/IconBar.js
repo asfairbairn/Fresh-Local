@@ -8,10 +8,12 @@ function IconBar({user, setUser}) {
 
     const history = useHistory()
 
-    function handleLogoutClick() {
+    function handleLogoutClick(e) {
+        e.preventDefault();
         fetch("/api/logout", { method: "DELETE" }).then((r) => {
             if (r.ok) {
-                setUser(null);
+                r.json().then((u) => setUser(u))
+                history.push(`/`)
             }
         });
     }
@@ -29,21 +31,21 @@ function IconBar({user, setUser}) {
     }
 
     const iconBarUser =
-        <div className="grid grid-cols-2 ">
-            <img src={userIcon} onClick={handleUserIconClick}/>
-            <img src={cartIcon} onClick={handleCartIconClick}/>
-            <img src={logoutIcon} onClick={handleLogoutClick}/>
+        <div className="object-right-top grid grid-cols-3 mr-5 space-x-[5px]">
+            <img src={userIcon} onClick={handleUserIconClick} className="w-4"/>
+            <img src={cartIcon} onClick={handleCartIconClick} className="w-4"/>
+            <img src={logoutIcon} onClick={handleLogoutClick} className="w-4"/>
         </div>
 
     const iconBarGuest =
-        <div className="object-right-top">
+        <div className="object-right-top grid grid-cols-2 mr-5 space-x-[5px]">
             <img src={userIcon} onClick={handleGuestUserIconClick} className="w-4"/>
             <img src={cartIcon} onClick={handleCartIconClick} className="w-4"/>
         </div>
 
     return(
         <div className="grid justify-items-end" >
-            {user?.username == undefined || "Guest" ? iconBarGuest : iconBarUser}
+            {user?.username === "Guest" ? iconBarGuest : iconBarUser}
         </div>
     )
 }
