@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :cart_items, only: [:create, :show, :update, :destroy]
-    resources :cart_details, only: [:create, :show]
+    resources :cart_details, only: [:show, :create]
     resources :reviews, only: [:create, :show, :destroy]
     resources :products
     resources :product_categories
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :cart_details, only: [:show, :index]
     end
 
+    get "/top_producers", to: "users#top_producers"
     get "/me", to: "sessions#show"
     delete "/logout", to: "sessions#destroy"
     post "/signup", to: "users#create"

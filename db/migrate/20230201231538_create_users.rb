@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :password_digest
       t.text :bio
       t.boolean :producer
+      t.string :image_address
 
       t.timestamps
     end

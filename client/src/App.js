@@ -28,7 +28,7 @@ function App({Route, Switch}) {
 
   const [cart, setCart] =useState([])
 
-  const [productCategory, setProductCategory] = useState("all")
+  const [productCategory, setProductCategory] = useState("")
 
   const [organic, setOrganic] = useState(false)
   
@@ -36,19 +36,15 @@ function App({Route, Switch}) {
     fetch("/api/products")
     .then(r => r.json())
     .then((products) => {
-      console.log(products)
       setProducts(products)
 
     })
 
   }, [])
 
-  console.log(products)
-
   useEffect(() => {
     fetch("/api/me").then((r) => {
       if (r.ok) {r.json().then((data) => {
-        console.log(data)
         setUser(data)});
       }});
   }, []);
@@ -66,19 +62,27 @@ function App({Route, Switch}) {
             setCart(cart);
         });
     }
-}, [user]);
+  }, [user]);
 
-  // const filteredProductsByOrganic = (products) => {
+  const filterProductsByOrganic = organic === true ? products.filter((product) => {
+    return product.organic === true
+  }) : products
+
+  // const filterProductsByOrganic = (products) => {
   //   if(organic === true) {
   //     return products?.organic === true
   //   }else {return products}
   // }
 
-  // const filteredProductsByCategory = (filteredProductsByOrganic) => {
+  const filterProductsByCategory = filterProductsByOrganic?.filter((product) => {
+    return product?.product_category.category_name.includes(productCategory)
+  })
+
+  // const filterProductsByCategory = () => {
   //   if (productCategory === 'all') {
-  //     return filteredProductsByOrganic
+  //     return filterProductsByOrganic
   //   }
-  //   else {return filteredProductsByOrganic.filter(product => {
+  //   else {return filterProductsByOrganic.filter(product => {
   //     return product.product_category === productCategory
   //   })}
   // }
@@ -87,21 +91,21 @@ function App({Route, Switch}) {
     setSearch(e.target.value)
   }
 
-//   const searchFilteredProducts = () => {
-//     filteredProductsByCategory.filter(product => {
-//     return product.name.toLowerCase().includes(search.toLowerCase())
-//   })
-// }
+  const searchFilteredProducts =
+    filterProductsByCategory?.filter(product => {
+    return product.name.toLowerCase().includes(search.toLowerCase())
+  })
+
 
   return (
-    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed h-screen">
+    <div className="bg-hero bg-no-repeat bg-cover bg-center bg-fixed">
       <Header setUser={setUser} user={user} setCart={setCart}/>
       <Switch>
         <Route exact path="/">
           <HomePage user={user} setUser={setUser} setProductCategory={setProductCategory} setOrganic={setOrganic}/>
         </Route>
         <Route exact path="/products">
-          <ProductPage products={products} setProductCategory={setProductCategory} setOrganic={setOrganic} organic={organic} handleSearch={handleSearch} search={search} productCategory={productCategory}/>
+          <ProductPage products={searchFilteredProducts} setProductCategory={setProductCategory} setOrganic={setOrganic} organic={organic} handleSearch={handleSearch} search={search} productCategory={productCategory}/>
         </Route>
         <Route exact path="/products/:id">
           <ProductDetails user={user} setCart={setCart}/>
@@ -140,10 +144,10 @@ function App({Route, Switch}) {
           <EditUser user={user} setUser={setUser}/>
         </Route>
         <Route exact path="/users/:id/products/new">
-          <ProductForm/>
+          <ProductForm products={products} setProducts={setProducts}/>
         </Route>
         <Route exact path="/cart">
-          <Cart setCart={setCart} cart={cart} />
+          <Cart setCart={setCart} cart={cart} user={user}/>
         </Route>
       </Switch>
       <Footer />
